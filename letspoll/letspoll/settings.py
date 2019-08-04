@@ -118,3 +118,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+   'DEFAULT_PAGINATION_CLASS':
+   'rest_framework.pagination.LimitOffsetPagination',
+   'PAGE_SIZE': 25,
+   'UNAUTHENTICATED_USER': None
+}
+
+CORS_EXPOSE_HEADERS = (
+  'x-access-token',
+  'x-refresh-token'
+)
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ALLOW_HEADERS = (
+#     'accept',
+#     'accept-encoding',
+#     'authorization',
+#     'content-type',
+#     'dnt',
+#     'origin',
+#     'user-agent',
+#     'x-csrftoken',
+#     'x-requested-with',
+#     'x-access-token',
+#     'x-refresh-token'
+# )

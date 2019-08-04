@@ -15,5 +15,9 @@ Including another URLconf
 """
 from django.urls import path
 
+from ws.views.poll_views import PollView
+
 urlpatterns = [
+    path('api/polls/', PollView.as_view()),
+    path('api/polls/<str:poll_id>', PollView.as_view()),
 ]

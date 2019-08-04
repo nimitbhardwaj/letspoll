@@ -18,7 +18,7 @@ class Option(models.Model):
     text = models.CharField(max_length=200, null=False)
     question = models.ForeignKey('Question', on_delete=models.CASCADE, null=False)
 
-class User(models.Model):
+class PollUser(models.Model):
     USER_STATUS = [
         ('PN', 'Pending'),
         ('AP', 'Approved'),
