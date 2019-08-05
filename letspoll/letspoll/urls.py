@@ -16,8 +16,18 @@ Including another URLconf
 from django.urls import path
 
 from ws.views.poll_views import PollView
+from ws.views.question_views import QuestionView
+from ws.views.option_views import OptionView
 
 urlpatterns = [
+    # Polls
     path('api/polls/', PollView.as_view()),
-    path('api/polls/<str:poll_id>', PollView.as_view()),
+    path('api/polls/<str:poll_id>/', PollView.as_view()),
+    # Questions
+    path('api/polls/<str:poll_id>/questions/', QuestionView.as_view()),
+    path('api/polls/<str:poll_id>/questions/<str:question_id>/', QuestionView.as_view()),
+    # Options
+    path('api/polls/<str:poll_id>/questions/<str:question_id>/options/', OptionView.as_view()),
+    path('api/polls/<str:poll_id>/questions/<str:question_id>/options/<str:option_id>/', OptionView.as_view()),
+    
 ]
