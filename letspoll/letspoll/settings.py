@@ -25,7 +25,7 @@ SECRET_KEY = 'gncy8r=l-i*%_&$r5*^0+(%_32f!*ws0fd=+7x!#p08m(e4i^m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -33,10 +33,12 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
+    'django.contrib.auth',
     'django_extensions',
     'rest_framework',
     'corsheaders',
     'ws',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -120,10 +122,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-   'DEFAULT_PAGINATION_CLASS':
-   'rest_framework.pagination.LimitOffsetPagination',
-   'PAGE_SIZE': 25,
-   'UNAUTHENTICATED_USER': None
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 25,
+    'UNAUTHENTICATED_USER': None,
+}
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
 }
 
 CORS_EXPOSE_HEADERS = (
@@ -146,3 +150,7 @@ CORS_ALLOW_HEADERS = (
     'x-access-token',
     'x-refresh-token'
 )
+
+HASH_SECRET_KEY = 'B for ball'
+
+AUTH_USER_MODEL = 'authentication.PollUser'

@@ -1,7 +1,6 @@
 from ws.models import Poll
 from ws.models import Question
 from ws.models import Option
-from ws.models import PollUser
 
 from ws.serializers import OptionSerializer
 

@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from django.contrib.auth import get_user_model
+
 from ws.models import Poll
 from ws.models import Question
 from ws.models import Option

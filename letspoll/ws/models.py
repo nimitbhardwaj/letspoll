@@ -1,6 +1,12 @@
 from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+
+from datetime import datetime, timedelta
 
 import uuid
+import jwt
+
 # Create your models here.
 
 
@@ -18,19 +24,3 @@ class Option(models.Model):
     text = models.CharField(max_length=200, null=False)
     question = models.ForeignKey('Question', on_delete=models.CASCADE, null=False)
 
-class PollUser(models.Model):
-    USER_STATUS = [
-        ('PN', 'Pending'),
-        ('AP', 'Approved'),
-        ('RJ', 'Rejected')
-    ]
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, null=False)
-    poll = models.ForeignKey('Poll', on_delete=models.CASCADE, null=False)
-    handle = models.CharField(max_length=200, null=False)
-    status = models.CharField(choices=USER_STATUS, default='PN', max_length=20, null=False)
-    password = models.CharField(max_length=200, null=False)
-    is_admin = models.BooleanField(default=False, null=False)
-
-    class Meta:
-        unique_together = ('poll', 'handle')
