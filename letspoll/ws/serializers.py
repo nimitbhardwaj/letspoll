@@ -21,5 +21,5 @@ class PollSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True, source='question_set')
     class Meta:
         model = Poll
-        fields = ('id', 'name', 'questions')
+        fields = ('id', 'name', 'questions', 'is_secret_poll')
         read_only_fields = ('id',)

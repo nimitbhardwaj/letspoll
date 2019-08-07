@@ -13,6 +13,7 @@ import jwt
 class Poll(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, null=False)
     name = models.CharField(max_length=200, unique=True, null=False)
+    is_secret_poll = models.BooleanField(null=False, default=False)
 
 class Question(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, null=False)

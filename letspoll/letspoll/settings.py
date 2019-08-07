@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
-    'rest_framework_swagger',
     'ws',
     'authentication',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +127,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 25,
     'UNAUTHENTICATED_USER': None,
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication'
+    ]
 }
 
 SIMPLE_JWT = {
@@ -157,3 +160,17 @@ CORS_ALLOW_HEADERS = (
 HASH_SECRET_KEY = 'B for ball'
 
 AUTH_USER_MODEL = 'authentication.PollUser'
+
+# SWAGGER_SETTINGS = {
+#     'USE_SESSION_AUTH': False,
+#     'SECURITY_DEFINITIONS': {
+#         'api_key': {
+#             'type': 'apiKey',
+#             'in': 'header',
+#             'name': 'AUTH-TOKEN'
+#         }
+#     },
+#     'APIS_SORTER': 'alpha',
+#     'SUPPORTED_SUBMIT_METHODS': ['get', 'post', 'put', 'delete', 'patch'],
+#     'OPERATIONS_SORTER': 'alpha'
+# }
