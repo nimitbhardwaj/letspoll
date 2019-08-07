@@ -19,6 +19,21 @@ class OptionView(APIView):
             return obj.get(field)
 
     def post(self, req, poll_id, question_id):
+        """
+            This text is the description for this API.
+
+            ---
+            parameters:
+            - name: username
+            description: Foobar long description goes here
+            required: true
+            type: string
+            paramType: form
+            - name: password
+            paramType: form
+            required: true
+            type: string
+        """
         try:
             data = JSONParser().parse(req)
             question_object = Question.objects.get(pk=question_id)

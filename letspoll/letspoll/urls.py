@@ -16,8 +16,15 @@ Including another URLconf
 from django.urls import path, include, re_path
 
 from rest_framework_simplejwt import views as jwt_views
+from rest_framework_swagger.views import get_swagger_view
+schema_view = get_swagger_view(title='Pastebin API')
+
 
 urlpatterns = [
     path('api/', include('ws.urls')),
-    path('api/auth/', include('authentication.urls'))
+    path('api/auth/', include('authentication.urls')),
+    path('doc/', schema_view)
 ]
+
+
+
