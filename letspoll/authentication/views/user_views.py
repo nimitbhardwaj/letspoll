@@ -21,7 +21,7 @@ class UserView(ViewSet):
         if serialized_poll_user.is_valid():
             poll_user_object = serialized_poll_user.save()
             return Response({'msg': 'User created success',
-                            'id': poll_user_object.id},
+                            'user_id': poll_user_object.id},
                             status=status.HTTP_201_CREATED)
         else:
             return Response(serialized_poll_user.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -29,8 +29,8 @@ class UserView(ViewSet):
     def make_admin(self, req):
         data = JSONParser().parse(req)
         signer = Signer(settings.HASH_SECRET_KEY)
-        poll_id = data['poll']
-        uid = data['user']
+        poll_id = data['poll_id']
+        uid = data['user_id']
         secret_token = data['secret_token']
         try:
             unsigned_data = signer.unsign(secret_token).decode('ascii')
@@ -57,4 +57,4 @@ class UserView(ViewSet):
         if serialized.is_valid():
             return Response(serialized.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serialized.errors, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)

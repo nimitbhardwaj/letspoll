@@ -33,7 +33,7 @@ def create_poll(req):
         secret_token = signer.sign(str(poll_object.id))
 
         return Response({'msg': 'Poll Created',
-                        'id': poll_object.id,
+                        'poll_id': poll_object.id,
                         'secret_token': secret_token},
                         status=status.HTTP_201_CREATED)
     else:
@@ -41,8 +41,9 @@ def create_poll(req):
                         status=status.HTTP_400_BAD_REQUEST)
 
 @decorators.api_view(['get'])
+@decorators.authentication_classes([JWTAuthentication])
+@decorators.permission_classes([permissions.IsAuthenticated])
 def get_poll_by_name(req, poll_name):
-    print('bye')
     try:
         poll_name = poll_name.replace('-', ' ')
         poll = Poll.objects.filter(name__iexact=poll_name)
@@ -52,10 +53,20 @@ def get_poll_by_name(req, poll_name):
             poll = poll[0]
         if poll.name != poll_name:
             raise Poll.DoesNotExist
-        return Response({'id': poll.id}, status=status.HTTP_200_OK)
+        return Response({'poll_id': poll.id}, status=status.HTTP_200_OK)
     except Poll.DoesNotExist:
         return Response({'msg': 'Poll with given name does not exits'},
-                        status=status.HTTP_400_BAD_REQUEST)
+                        status=status.HTTP)
+
+@decorators.api_view(['get'])
+def poll_exists(req, poll_name):
+    poll_name = poll_name.replace('-', ' ')
+    poll = Poll.objects.filter(name__iexact=poll_name)
+    if len(poll) == 1 and poll[0].name == poll_name:
+        return Response({'exists': True}, status=status.HTTP_200_OK)
+    else:
+        return Response({'exists': False}, status=status.HTTP_200_OK)
+
 
 class PollByIDView(APIView):
     authentication_classes = (JWTAuthentication, )

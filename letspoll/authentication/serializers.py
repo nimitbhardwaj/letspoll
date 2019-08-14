@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 from django.contrib.auth import get_user_model
 
@@ -10,21 +11,23 @@ from ws.models import Poll
 
 class CreatePollUserSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=255, read_only=True)
+    user_id = serializers.UUIDField(source='id', read_only=True)
+    poll_id = serializers.PrimaryKeyRelatedField(source='poll', queryset=Poll.objects.all())
     class Meta:
         model = PollUser
-        fields = ('id', 'username', 'password', 'poll', 'status', 'is_admin', 'token')
+        fields = ('user_id', 'username', 'password', 'poll_id', 'status', 'is_admin', 'token')
         read_only_fields = ('status', 'is_admin')
     
     def create(self, validated_data):
         return PollUser.objects.create_user(**validated_data)
-
+    
 class LoginPollUserSerializer(serializers.Serializer):
 
     username = serializers.CharField(max_length=255, write_only=True)
     password = serializers.CharField(max_length=128, write_only=True)
-    poll = serializers.CharField(max_length=100, write_only=True)
+    poll_id = serializers.CharField(max_length=100, write_only=True)
     token = serializers.UUIDField(read_only=True)
-    id = serializers.UUIDField(read_only=True)
+    user_id = serializers.UUIDField(read_only=True)
 
     def validate(self, data):
         """
@@ -32,7 +35,7 @@ class LoginPollUserSerializer(serializers.Serializer):
         """
         username = data.get('username', None)
         password = data.get('password', None)
-        poll = data.get('poll', None)
+        poll = data.get('poll_id', None)
 
         if username is None:
             raise serializers.ValidationError(
@@ -68,5 +71,5 @@ class LoginPollUserSerializer(serializers.Serializer):
             )
         return {
             'token': user.token,
-            'id': user.id
+            'user_id': user.id
         }

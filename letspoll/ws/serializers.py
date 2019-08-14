@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from django.contrib.auth import get_user_model
 
@@ -19,7 +20,9 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class PollSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True, source='question_set')
+    poll_id = serializers.UUIDField(source='id', read_only=True)
+    poll_name = serializers.CharField(source='name',
+                    validators=[UniqueValidator(queryset=Poll.objects.all())])
     class Meta:
         model = Poll
-        fields = ('id', 'name', 'questions', 'is_secret_poll')
-        read_only_fields = ('id',)
+        fields = ('poll_id', 'poll_name', 'questions', 'is_secret_poll')

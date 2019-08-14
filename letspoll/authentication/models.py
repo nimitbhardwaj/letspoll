@@ -60,7 +60,9 @@ class PollUser(AbstractBaseUser, PermissionsMixin):
 
         token = jwt.encode({
             'id': str(self.pk),
-            'exp': int(dt.strftime('%s'))
+            'exp': int(dt.strftime('%s')),
+            'poll_id': str(self.poll.id),
+            'is_admin': self.is_admin,
         }, settings.SECRET_KEY, algorithm='HS256')
 
         return token.decode('utf-8')
